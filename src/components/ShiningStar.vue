@@ -30,6 +30,7 @@
 
 <style scoped>
 .star-container {
+  display: inline-block;
   animation: shine 800ms ease-in infinite alternate;
   transform-origin: center;
 }
