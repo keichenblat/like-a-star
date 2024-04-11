@@ -1,5 +1,42 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+const props = defineProps({
+  animationDelayMs: {
+    type: Number,
+    default: 0
+  },
+  initialScale: {
+    type: Number,
+    default: 1
+  }
+})
+
+const starContainerStyle = ref<any>({})
+
+watch(
+  () => props.animationDelayMs,
+  (newValue) => {
+    starContainerStyle.value['--animation-delay'] = newValue + 'ms'
+  },
+  {
+    immediate: true
+  }
+)
+
+watch(
+  () => props.initialScale,
+  (newValue) => {
+    starContainerStyle.value['--initial-scale'] = newValue.toString()
+  },
+  {
+    immediate: true
+  }
+)
+</script>
+
 <template>
-  <div class="star-container">
+  <div class="star-container" :style="starContainerStyle">
     <svg
       width="144"
       height="154"
@@ -31,14 +68,14 @@
 <style scoped>
 .star-container {
   display: inline-block;
-  animation: shine 800ms ease-in infinite alternate;
+  animation: shine 800ms ease-in var(--animation-delay, 0ms) infinite alternate;
   transform-origin: center;
 }
 
 @keyframes shine {
   0% {
     opacity: 100%;
-    transform: scale(1);
+    transform: scale(var(--initial-scale, 1));
   }
   100% {
     opacity: 0%;
